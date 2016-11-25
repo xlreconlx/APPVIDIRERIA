@@ -32,9 +32,7 @@
                                                      update=":frmCliente" style="margin-left: 20px;"
                                                      disabled="#{!mbAbonos.enabled}"/>
                                 </h:panelGrid>
-
-
-                                <p:separator/>
+                           <p:separator/>
 
                                 <h:panelGrid id="gripDatosClintes" columns="4">
                                     <p:outputLabel value="Nombre" style="font-weight: bold;"/>
@@ -106,10 +104,17 @@
                         <p:commandButton value="Imprimir" style=" width: 150px; height: 45px;" onclick="imprimir()" 
                                          update=":frmAbonos :frmImprime:tbl" action="#{mbAbonos.limpiarAbonos()}" 
                                          disabled="#{!mbAbonos.enabled}"/>         
+                        <p:commandButton ajax="false" value="Genera Despiece">
+                            <p:dataExporter type="pdf" target="tablaImprime" fileName="Despiece" preProcessor="#{mbAbonos.imprimeDespiese}" />
+                        </p:commandButton>
+                        
                         <p:commandButton value="Cancelar" action="#{mbAbonos.limpiarAbonos()}"      disabled="#{!mbAbonos.enabled}"
                                          style=" width: 150px; height: 45px;"
                                          update=":frmAbonos">
                         </p:commandButton>
+                        <p:dataTable id="tablaImprime" style="display:none;width: 0px;height: 0px;">
+                            <p:column></p:column>
+                        </p:dataTable>
                     </p:panel>
 
 

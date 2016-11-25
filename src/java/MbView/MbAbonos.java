@@ -28,6 +28,10 @@ import Pojos.Empleado;
 import Pojos.Materiales;
 import Pojos.Puertas;
 import Pojos.Vitrinas;
+import com.lowagie.text.Document;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.html.simpleparser.HTMLWorker;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1056,6 +1060,29 @@ public class MbAbonos {
 
     }
 
+    public void imprimeDespiese(Object document) {
+        try {
+            Document pdf = (Document) document;
+            pdf.open();
+            pdf.setPageSize(PageSize.A4);
+
+            HTMLWorker htmlWorker = new HTMLWorker(pdf);
+            String html = "";
+            for (Despiece item : lstDespiece) {
+                if (item.getTipoProducto() == 1) {
+                    html += "<p>Tipo Producto Puerta</p><br></br>";
+                    html += "<p>Nombre: " + item.getNombreProducto() + "</p>";
+                    html += "<p>Aluminio 3 Alto:" + item.getMensajeAluminio3Alto() + "</p>";
+                    html += "______________________________________________________";
+                }
+            }
+            htmlWorker.parse(new StringReader(html));
+        } catch (Exception e) {
+            System.out.println("Ocurrio un error generando pdf: "+e.toString());
+        }
+
+    }
+
     public void generarFactura() {
         this.session = null;
         this.transaccion = null;
@@ -1113,15 +1140,6 @@ public class MbAbonos {
             sesson.setAttribute("idfactura", this.abonos.getIdabonos());
             this.transaccion.commit();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto:", "Se ha registrado "));
-
-            for (Despiece item : lstDespiece) {
-                if (item.getTipoProducto() == 1) {
-                    System.out.println("Puerta");
-                    System.out.println("Nombre: " + item.getNombreProducto());
-                    System.out.println("Aluminio 3 Alto: " + item.getMensajeAluminio3Alto());
-                }
-
-            }
 
         } catch (Exception ex) {
             if (this.transaccion != null) {
