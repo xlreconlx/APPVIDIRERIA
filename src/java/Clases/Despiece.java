@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 public class Despiece implements Serializable {
 
+    private int cantProducto; //Cantidad producto
     private String alto;
     private String ancho;
     private int idVidrio;
@@ -1045,5 +1046,15 @@ public class Despiece implements Serializable {
     public void setMensajePerfilEsquineroUnaFondo(String mensajePerfilEsquineroUnaFondo) {
         this.mensajePerfilEsquineroUnaFondo = mensajePerfilEsquineroUnaFondo;
     }
+
+    public int getCantProducto() {
+        return cantProducto;
+    }
+
+    public void setCantProducto(int cantProducto) {
+        this.cantProducto = cantProducto;
+    }
   
+    
+    
 }

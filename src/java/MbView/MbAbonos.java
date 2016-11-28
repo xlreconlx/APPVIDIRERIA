@@ -106,6 +106,7 @@ public class MbAbonos {
     private List<Despiece> lstDespiece;
     private int tipoAluminioPuerta;
     private int tipoColorVitrina;
+    private int cantidadProducto;
 
     private List<Cliente> listaClientes;
     private List<Empleado> listaEmpleado;
@@ -280,7 +281,7 @@ public class MbAbonos {
             if (this.tipoVitrina < 4 && this.tipoVitrina > 0) {
                 this.listaAbono.add(new Abonodetalle(null, daoProductos.getById(this.session, idProdVitrina),
                         daoProductos.getById(this.session, idProdVitrina).getNombre() + " " + nombreAluminio + "  " + this.alto + "*" + this.ancho + " fondo: " + this.fondo,
-                        1, vitrina.getSumaTotal() + this.precioVidrio, 1 * vitrina.getSumaTotal()
+                        this.cantidadProducto, vitrina.getSumaTotal() + this.precioVidrio, 1 * vitrina.getSumaTotal()
                         + this.precioVidrio, this.manObra, this.ganancia, this.alto, this.ancho, this.fondo, daoProductos.getById(this.session, idProdVitrina).getImgPrinci()));
             }
 
@@ -291,6 +292,7 @@ public class MbAbonos {
                 Despiece despie = new Despiece();
 
                 despie.setNombreProducto(nombreProducto);
+                despie.setCantProducto(this.cantidadProducto);
                 despie.setRecorteFondo(Double.valueOf(this.getFondo()));
                 despie.setCantidadCuartoCirculoAlto(4 * 1);
                 despie.setCantidadCuartoCirculoAncho(4 * 1);
@@ -312,13 +314,16 @@ public class MbAbonos {
                 despie.setMensajeVidrioAltoAncho(despie.getCantidadVidrio() + "  Vidrios ALto" + (Double.valueOf(this.getAlto()) - 10.5) + " recorte ancho  " + (Double.valueOf(this.getAncho()) - 10.5));
                 despie.setMensajeVidrioAltoFondo(despie.getCantidadVidrio() + "  Vidrios ALto" + (Double.valueOf(this.getAlto()) - 10.5) + "Recorte fondo" + (Double.valueOf(this.getFondo()) - 10.5));
                 despie.setMensajeVidrioAnchoFondo(despie.getCantidadVidrioEntrepanos() + "  Vidrios de 6mm Ancho " + (Double.valueOf(this.getAncho()) - 1) + "recorte fondo" + (Double.valueOf(this.getFondo()) - 8.5));
+                despie.setNombreProducto(daoProductos.getById(this.session, idProdVitrina).getNombre() + " " + nombreAluminio + "  " + this.alto + "*" + this.ancho);
 
+                despie.setTipoProducto(9);
                 lstDespiece.add(despie);
             } else {
                 if (this.tipoVitrina == 2) {
                     Despiece despie = new Despiece();
 
                     despie.setNombreProducto(nombreProducto);
+                    despie.setCantProducto(this.cantidadProducto);
                     despie.setCantidadPerfilEsquineroUnaAncho(4 * 1);
                     despie.setCntidadPerfilEsquineroUnaFondo(2 * 1);
                     despie.setCantidadAnguloMediaAlto(4 * 1);
@@ -344,11 +349,14 @@ public class MbAbonos {
                     despie.setMensajeVidrioAltoFondo(despie.getCantidadVidrio() + "  Vidrios ALto" + (Double.valueOf(this.getAlto()) - 10.5) + "Recorte fondo" + (Double.valueOf(this.getFondo()) - 10.5));
                     despie.setMensajeVidrioAnchoFondo(despie.getCantidadVidrio() + "  Vidrios Ancho " + (Double.valueOf(this.getAncho()) - 10.5) + "recorte fondo" + (Double.valueOf(this.getFondo()) - 1));
                     despie.setMensajeVidrioAnchoFondo(despie.getCantidadVidrioEntrepanos() + "  Vidrios de 6mm Ancho " + (Double.valueOf(this.getAncho()) - 1) + "recorte fondo" + (Double.valueOf(this.getFondo()) - 1));
+                    despie.setNombreProducto(daoProductos.getById(this.session, idProdVitrina).getNombre() + " " + nombreAluminio + "  " + this.alto + "*" + this.ancho);
+
+                    despie.setTipoProducto(10);
                     lstDespiece.add(despie);
                 } else {
                     if (this.tipoVitrina == 3) {
                         Despiece despie = new Despiece();
-
+                        despie.setCantProducto(this.cantidadProducto);
                         despie.setNombreProducto(nombreProducto);
                         despie.setCantidadPerfilEsquineroUnaAncho(2 * 1);
                         despie.setCntidadPerfilEsquineroUnaFondo(2 * 1);
@@ -376,6 +384,9 @@ public class MbAbonos {
                         despie.setMensajeVidrioAltoFondo(despie.getCantidadVidrio() + "  Vidrios ALto" + (Double.valueOf(this.getAlto()) - 10.5) + "Recorte fondo" + (Double.valueOf(this.getFondo()) - 10.5));
                         despie.setMensajeVidrioAnchoFondo(despie.getCantidadVidrio() + "  Vidrios Ancho " + (Double.valueOf(this.getAncho()) - 10.5) + "recorte fondo" + (Double.valueOf(this.getFondo()) - 1));
                         despie.setMensajeVidrioAnchoFondo(despie.getCantidadVidrioEntrepanos() + "  Vidrios de 6mm Ancho " + (Double.valueOf(this.getAncho()) - 1) + "recorte fondo" + (Double.valueOf(this.getFondo()) - 1));
+                        despie.setNombreProducto(daoProductos.getById(this.session, idProdVitrina).getNombre() + " " + nombreAluminio + "  " + this.alto + "*" + this.ancho);
+
+                        despie.setTipoProducto(11);
                         lstDespiece.add(despie);
                     }
                 }
@@ -393,6 +404,7 @@ public class MbAbonos {
             this.tipoVitrina = 0;
             this.fondo = "";
             this.productoTipo = 0;
+            this.cantidadProducto = 0;
         } catch (Exception ex) {
 
             if (this.transaccion != null) {
@@ -512,12 +524,13 @@ public class MbAbonos {
             if (this.tipoPuerta < 6 && this.tipoPuerta > 0) {
                 this.listaAbono.add(new Abonodetalle(null, daoProductos.getById(this.session, idProdPuerta),
                         daoProductos.getById(this.session, idProdPuerta).getNombre() + " " + nombreAluminio + "  " + this.alto + "*" + this.ancho,
-                        1, puertas.getSumaTotal() + this.precioVidrio, 1 * puertas.getSumaTotal()
+                        this.cantidadProducto, puertas.getSumaTotal() + this.precioVidrio, 1 * puertas.getSumaTotal()
                         + this.precioVidrio, this.manObra, this.ganancia, this.alto, this.ancho, "", daoProductos.getById(this.session, this.tipoPuerta).getImgPrinci()));
             }
 
             if (tipoPuerta == 1) {
                 Despiece despie = new Despiece();
+                despie.setCantProducto(this.cantidadProducto);
                 despie.setCantidadMarcoAncho(1 * 1);// 1 es la cantidad
                 despie.setCantidadMarcoAlto(2 * 1);
                 despie.setCantidadNaveAlto(2 * 1);
@@ -553,7 +566,7 @@ public class MbAbonos {
                     //a el final se añade a la lista
                     //luego cuando le den generar se debe crear un metodo que recorra y valide cual tipo de producto es
                     Despiece despie = new Despiece();
-
+                    despie.setCantProducto(this.cantidadProducto);
                     despie.setCantidadMarcoAncho(1 * 1);// 1 es la cantidad
                     despie.setCantidadMarcoAlto(2 * 1);
                     despie.setCantidadNaveAlto(2 * 1);
@@ -577,6 +590,7 @@ public class MbAbonos {
                     despie.setMensajeChapa(despie.getCantidadChapa() + " Cantidad Chapa .");
                     despie.setMensajeEscuadras1(despie.getCantidadEscuadras() + " Cantidad Escudras .");
                     despie.setMensajeVarillasTensoras(despie.getCantidadVarillasTensoras() + " Cantidad Varillas Tensoras .");
+                    despie.setNombreProducto(daoProductos.getById(this.session, idProdPuerta).getNombre() + " " + nombreAluminio + "  " + this.alto + "*" + this.ancho);
                     despie.setTipoProducto(2);
 
                     lstDespiece.add(despie);
@@ -586,6 +600,7 @@ public class MbAbonos {
                         //a el final se añade a la lista
                         //luego cuando le den generar se debe crear un metodo que recorra y valide cual tipo de producto es
                         Despiece despie = new Despiece();
+                        despie.setCantProducto(this.cantidadProducto);
                         despie.setCantidadMarcoAncho(1 * 1);// 1 es la cantidad
                         despie.setCantidadMarcoAlto(2 * 1);
                         despie.setCantidadNaveAlto(2 * 1);
@@ -608,6 +623,7 @@ public class MbAbonos {
                         despie.setMensajeChapa(despie.getCantidadChapa() + " Cantidad Chapa .");
                         despie.setMensajeEscuadras1(despie.getCantidadEscuadras() + " Cantidad Escudras .");
                         despie.setMensajeVarillasTensoras(despie.getCantidadVarillasTensoras() + "Cantidad Varillas Tensoras .");
+                        despie.setNombreProducto(daoProductos.getById(this.session, idProdPuerta).getNombre() + " " + nombreAluminio + "  " + this.alto + "*" + this.ancho);
                         despie.setTipoProducto(3);
 
                         lstDespiece.add(despie);
@@ -617,6 +633,7 @@ public class MbAbonos {
                             //a el final se añade a la lista
                             //luego cuando le den generar se debe crear un metodo que recorra y valide cual tipo de producto es
                             Despiece despie = new Despiece();
+                            despie.setCantProducto(this.cantidadProducto);
                             despie.setCantidadMarcoAncho(1 * 1);// 1 es la cantidad
                             despie.setCantidadMarcoAlto(2 * 1);
                             despie.setCantidadNaveAlto(2 * 1);
@@ -658,6 +675,7 @@ public class MbAbonos {
                                 //a el final se añade a la lista
                                 //luego cuando le den generar se debe crear un metodo que recorra y valide cual tipo de producto es
                                 Despiece despie = new Despiece();
+                                despie.setCantProducto(this.cantidadProducto);
                                 despie.setCantidadMarcoAncho(1 * 1);// 1 es la cantidad
                                 despie.setCantidadMarcoAlto(2 * 1);
                                 despie.setCantidadNaveAlto(2 * 1);
@@ -710,6 +728,7 @@ public class MbAbonos {
             this.fondo = "";
             this.productoTipo = 0;
             this.tipoAluminioPuerta = 0;
+            this.cantidadProducto = 0;
 
         } catch (Exception ex) {
 
@@ -951,19 +970,20 @@ public class MbAbonos {
             if (this.tipoVentana < 4 && this.tipoVentana > 0) {
                 this.listaAbono.add(new Abonodetalle(null, daoProductos.getById(this.session, idVentana),
                         daoProductos.getById(this.session, idVentana).getNombre() + " " + nombreAluminio + "  " + this.alto + "*" + this.ancho,
-                        1, material.getSumaTotal() + this.precioVidrio, 1 * material.getSumaTotal()
+                        this.cantidadProducto, material.getSumaTotal() + this.precioVidrio, 1 * material.getSumaTotal()
                         + this.precioVidrio, this.manObra, this.ganancia, this.alto, this.ancho, "", daoProductos.getById(this.session, this.tipoVentana).getImgPrinci()));
             }
             if (this.tipoProductos == 4) {
                 this.listaAbono.add(new Abonodetalle(null, daoProductos.getById(this.session, this.tipoVentana),
                         daoProductos.getById(this.session, this.tipoVentana).getNombre() + " " + this.alto + "*" + this.ancho,
-                        1, this.precioVidrio + this.manObra, 1 * this.precioVidrio, this.manObra, this.ganancia, this.alto, this.ancho, "", daoProductos.getById(this.session, this.tipoVentana).getImgPrinci()));
+                        this.cantidadProducto, this.precioVidrio + this.manObra, 1 * this.precioVidrio, this.manObra, this.ganancia, this.alto, this.ancho, "", daoProductos.getById(this.session, this.tipoVentana).getImgPrinci()));
             }
 
             if (this.tipoVentana == 1) {
                 if (this.tipoAluminio == 1 || this.tipoAluminio == 4 || this.tipoAluminio == 7) {
                     Despiece despie = new Despiece();
 
+                    despie.setCantProducto(this.cantidadProducto);
                     despie.setCantidadCabezal(1 * 1);
                     despie.setCantidadSillar(1 * 1);
                     despie.setCantidadJamba(2 * 1);
@@ -982,13 +1002,17 @@ public class MbAbonos {
                     despie.setMensajeHSuperior(despie.getCantidadHorizontalesSuperior() + " Recorte Horizontales Superior de:  " + (Double.valueOf(this.getAncho())));
                     despie.setMensajeHInferior(despie.getCantidadHorizontalesInferior() + " Recorte Horizontales Inferior de:  " + (Double.valueOf(this.getAncho())));
                     despie.setMensajeVidrio(despie.getCantidadVidrio() + " Recorte Vidrio Alto de: " + (Double.valueOf(this.getAlto()) * 2 - 5) + "  Recorte VidrioAncho de: " + (Double.valueOf(this.getAncho()) * 2 - 5.5));
+                    despie.setNombreProducto(daoProductos.getById(this.session, idVentana).getNombre() + " " + nombreAluminio + "  " + this.alto + "*" + this.ancho);
 
+                    despie.setTipoProducto(6);
+                    lstDespiece.add(despie);
                 }
             } else {
                 if (this.tipoVentana == 2) {
                     if (this.tipoAluminio == 2 || this.tipoAluminio == 5 || this.tipoAluminio == 8) {
                         Despiece despie = new Despiece();
 
+                        despie.setCantProducto(this.cantidadProducto);
                         despie.setCantidadCabezal(1 * 1);
                         despie.setCantidadSillar(1 * 1);
                         despie.setCantidadJamba(2 * 1);
@@ -1004,11 +1028,15 @@ public class MbAbonos {
                         despie.setMensajeHSuperior(despie.getCantidadHorizontalesSuperior() - 1 + "Recorte Horizontales Superior de:  " + (Double.valueOf(this.getAncho()) / 2 + "  y 1 horizontal Superior de: " + (Double.valueOf(this.getAncho()))));
                         despie.setMensajeHInferior(despie.getCantidadHorizontalesInferior() - 1 + " Recorte Horizontales Inferior de:  " + (Double.valueOf(this.getAncho()) / 2 + "  y 1 horizontal Inferior de: " + (Double.valueOf(this.getAncho()))));
                         despie.setMensajeVidrio(despie.getCantidadVidrio() + " Recorte Vidrio Alto de: " + (Double.valueOf(this.getAlto()) * 2 - 5) + " Recorte VidrioAncho de: " + (Double.valueOf(this.getAncho()) * 2 - 5.5));
+                        despie.setNombreProducto(daoProductos.getById(this.session, idVentana).getNombre() + " " + nombreAluminio + "  " + this.alto + "*" + this.ancho);
 
+                        despie.setTipoProducto(7);
+                        lstDespiece.add(despie);
                     } else {
                         if (this.tipoAluminio == 3 || this.tipoAluminio == 6 || this.tipoAluminio == 9) {
                             Despiece despie = new Despiece();
 
+                            despie.setCantProducto(this.cantidadProducto);
                             despie.setCantidadCabezal(1 * 1);
                             despie.setCantidadSillar(1 * 1);
                             despie.setCantidadJamba(2 * 1);
@@ -1016,7 +1044,6 @@ public class MbAbonos {
                             despie.setCantidadTraslape(4 * 1);
                             despie.setCantidadHorizontalesSuperior(4 * 1);
                             despie.setCantidadHorizontalesInferior(4 * 1);
-
                             despie.setCantidadAdactador(1 * 1);
                             despie.setMensajeCabezal(despie.getCantidadCabezal() + "Recorte Cabeazal de:  " + (Double.valueOf(this.getAncho()) * 2));
                             despie.setMensajeSillar(despie.getCantidadSillar() + " Recorte Sillar de: " + (Double.valueOf(this.getAncho()) * 2));
@@ -1027,7 +1054,10 @@ public class MbAbonos {
                             despie.setMensajeHSuperior(despie.getCantidadHorizontalesSuperior() - 1 + "Recorte Horizontales Superior de:  " + (Double.valueOf(this.getAncho()) / 2 + "  y 1 horizontal Superior de: " + (Double.valueOf(this.getAncho()))));
                             despie.setMensajeHInferior(despie.getCantidadHorizontalesInferior() - 1 + " Recorte Horizontales Inferior de:  " + (Double.valueOf(this.getAncho()) / 2 + "  y 1 horizontal Inferior de: " + (Double.valueOf(this.getAncho()))));
                             despie.setMensajeVidrio(despie.getCantidadVidrio() + " Recorte Vidrio Alto de: " + (Double.valueOf(this.getAlto()) * 2 - 5) + " Recorte VidrioAncho de: " + (Double.valueOf(this.getAncho()) * 2 - 5.5));
+                            despie.setNombreProducto(daoProductos.getById(this.session, idVentana).getNombre() + " " + nombreAluminio + "  " + this.alto + "*" + this.ancho);
 
+                            despie.setTipoProducto(8);
+                            lstDespiece.add(despie);
                         }
                     }
                 }
@@ -1042,6 +1072,7 @@ public class MbAbonos {
             this.tipoVentana = 0;
             this.tipoVidrio = 0;
             this.productoTipo = 0;
+            this.cantidadProducto = 0;
 
         } catch (Exception ex) {
 
@@ -1071,14 +1102,210 @@ public class MbAbonos {
             for (Despiece item : lstDespiece) {
                 if (item.getTipoProducto() == 1) {
                     html += "<p>Tipo Producto Puerta</p><br></br>";
+                    html += "<p>Cantidad:" + item.getCantProducto() + "</p><br></br>";
                     html += "<p>Nombre: " + item.getNombreProducto() + "</p>";
                     html += "<p>Aluminio 3 Alto:" + item.getMensajeAluminio3Alto() + "</p>";
+                    html += "<p>Aluminio 3 ancho:" + item.getMensajeAluminio3Ancho() + "</p>";
+                    html += "<p>Aluminio :" + item.getMensajeNaveAlto() + "</p>";
+                    html += "<p>Aluminio :" + item.getMensajeNaveAncho() + "</p>";
+                    html += "<p>Aluminio :" + item.getMensajePisaVidriosAncho() + "</p>";
+                    html += "<p>Aluminio :" + item.getMensajePisavidrioAlto() + "</p>";
+                    html += "<p>Aluminio :" + item.getMensajePartidor() + "</p>";
+                    html += "<p>Aluminio :" + item.getMensajePibotes() + "</p>";
+                    html += "<p>Aluminio :" + item.getMensajeChapa() + "</p>";
+                    html += "<p>Aluminio :" + item.getMensajeEscuadras1() + "</p>";
+                    html += "<p>Aluminio :" + item.getMensajeVarillasTensoras() + "</p>";
+                    html += "<p>Aluminio :" + item.getMensajeVidrioAltoAncho() + "</p>";
                     html += "______________________________________________________";
+                } else {
+                    if (item.getTipoProducto() == 2) {
+                        html += "<p>Tipo Producto Puerta</p><br></br>";
+                        html += "<p>Cantidad:" + item.getCantProducto() + "</p><br></br>";
+                        html += "<p>Nombre: " + item.getNombreProducto() + "</p>";
+                        html += "<p>Aluminio 3 Alto:" + item.getMensajeAluminio3Alto() + "</p>";
+                        html += "<p>Aluminio 3 ancho:" + item.getMensajeAluminio3Ancho() + "</p>";
+                        html += "<p>Aluminio :" + item.getMensajeNaveAlto() + "</p>";
+                        html += "<p>Aluminio :" + item.getMensajeNaveAncho() + "</p>";
+                        html += "<p>Aluminio :" + item.getMensajePerfilU71() + "</p>";
+                        html += "<p>Aluminio :" + item.getMensajePibotes() + "</p>";
+                        html += "<p>Aluminio :" + item.getMensajeChapa() + "</p>";
+                        html += "<p>Aluminio :" + item.getMensajeEscuadras1() + "</p>";
+                        html += "<p>Aluminio :" + item.getMensajeVarillasTensoras() + "</p>";
+                        html += "______________________________________________________";
+                    } else {
+                        if (item.getTipoProducto() == 3) {
+                            html += "<p>Tipo Producto Puerta</p><br></br>";
+                            html += "<p>Cantidad:" + item.getCantProducto() + "</p><br></br>";
+                            html += "<p>Nombre: " + item.getNombreProducto() + "</p>";
+                            html += "<p>Aluminio 3 Alto:" + item.getMensajeAluminio3Alto() + "</p>";
+                            html += "<p>Aluminio 3 ancho:" + item.getMensajeAluminio3Ancho() + "</p>";
+                            html += "<p>Aluminio :" + item.getMensajeNaveAlto() + "</p>";
+                            html += "<p>Aluminio :" + item.getMensajeNaveAncho() + "</p>";
+                            html += "<p>Aluminio :" + item.getMensajePisaVidriosAncho() + "</p>";
+                            html += "<p>Aluminio :" + item.getMensajePisavidrioAlto() + "</p>";
+                            html += "<p>Aluminio :" + item.getMensageEntamboradoF06() + "</p>";
+                            html += "<p>Aluminio :" + item.getMensajePibotes() + "</p>";
+                            html += "<p>Aluminio :" + item.getMensajeChapa() + "</p>";
+                            html += "<p>Aluminio :" + item.getMensajeEscuadras1() + "</p>";
+                            html += "<p>Aluminio :" + item.getMensajeVarillasTensoras() + "</p>";
+                            html += "<p>Aluminio :" + item.getMensajeVidrioAltoAncho() + "</p>";
+                            html += "______________________________________________________";
+                        } else {
+                            if (item.getTipoProducto() == 4) {
+                                html += "<p>Tipo Producto Puerta</p><br></br>";
+                                html += "<p>Cantidad:" + item.getCantProducto() + "</p><br></br>";
+                                html += "<p>Nombre: " + item.getNombreProducto() + "</p>";
+                                html += "<p>Aluminio 3 Alto:" + item.getMensajeAluminio3Alto() + "</p>";
+                                html += "<p>Aluminio 3 ancho:" + item.getMensajeAluminio3Ancho() + "</p>";
+                                html += "<p>Aluminio :" + item.getMensajeNaveAlto() + "</p>";
+                                html += "<p>Aluminio :" + item.getMensajeNaveAncho() + "</p>";
+                                html += "<p>Aluminio :" + item.getMensajePisaVidriosAncho() + "</p>";
+                                html += "<p>Aluminio :" + item.getMensajePisavidrioAlto() + "</p>";
+                                html += "<p>Aluminio :" + item.getMensajePartidor() + "</p>";
+                                html += "<p>Aluminio :" + item.getMensajePibotes() + "</p>";
+                                html += "<p>Aluminio :" + item.getMensajeChapa() + "</p>";
+                                html += "<p>Aluminio :" + item.getMensajeEscuadras1() + "</p>";
+                                html += "<p>Aluminio :" + item.getMensajeVarillasTensoras() + "</p>";
+                                html += "______________________________________________________";
+
+                            } else {
+                                if (item.getTipoProducto() == 5) {
+                                    html += "<p>Tipo Producto Puerta</p><br></br>";
+                                    html += "<p>Cantidad:" + item.getCantProducto() + "</p><br></br>";
+                                    html += "<p>Nombre: " + item.getNombreProducto() + "</p>";
+                                    html += "<p>Aluminio 3 Alto:" + item.getMensajeAluminio3Alto() + "</p>";
+                                    html += "<p>Aluminio 3 ancho:" + item.getMensajeAluminio3Ancho() + "</p>";
+                                    html += "<p>Aluminio :" + item.getMensajeNaveAlto() + "</p>";
+                                    html += "<p>Aluminio :" + item.getMensajeNaveAncho() + "</p>";
+                                    html += "<p>Aluminio :" + item.getMensajePisaVidriosAncho() + "</p>";
+                                    html += "<p>Aluminio :" + item.getMensajePisavidrioAlto() + "</p>";
+                                    html += "<p>Aluminio :" + item.getMensajePartidor() + "</p>";
+                                    html += "<p>Aluminio :" + item.getMensajeVisagras() + "</p>";
+                                    html += "<p>Aluminio :" + item.getMensajeChapa() + "</p>";
+                                    html += "<p>Aluminio :" + item.getMensajeEscuadras1() + "</p>";
+                                    html += "<p>Aluminio :" + item.getMensajeVarillasTensoras() + "</p>";
+                                    html += "<p>Aluminio :" + item.getMensajeVidrioAltoAncho() + "</p>";
+                                    html += "______________________________________________________";
+
+                                } else {
+                                    if (item.getTipoProducto() == 6) {
+                                        html += "<p>Tipo Producto Ventana</p><br></br>";
+                                        html += "<p>Cantidad:" + item.getCantProducto() + "</p><br></br>";
+                                        html += "<p>Nombre: " + item.getNombreProducto() + "</p>";
+                                        html += "<p>Aluminio :" + item.getMensajeCabezal() + "</p>";
+                                        html += "<p>Aluminio :" + item.getMensajeSillar() + "</p>";
+                                        html += "<p>Aluminio :" + item.getMensajeJamba() + "</p>";
+                                        html += "<p>Aluminio :" + item.getMensajeEnganche() + "</p>";
+                                        html += "<p>Aluminio :" + item.getMensajeTraslape() + "</p>";
+                                        html += "<p>Aluminio :" + item.getMensajeHSuperior() + "</p>";
+                                        html += "<p>Aluminio :" + item.getMensajeHInferior() + "</p>";
+                                        html += "<p>Aluminio :" + item.getMensajeVidrio() + "</p>";
+                                        html += "______________________________________________________";
+
+                                    } else {
+                                        if (item.getTipoProducto() == 7) {
+                                            html += "<p>Tipo Producto Ventana</p><br></br>";
+                                            html += "<p>Cantidad:" + item.getCantProducto() + "</p><br></br>";
+                                            html += "<p>Nombre: " + item.getNombreProducto() + "</p>";
+                                            html += "<p>Aluminio :" + item.getMensajeCabezal() + "</p>";
+                                            html += "<p>Aluminio :" + item.getMensajeSillar() + "</p>";
+                                            html += "<p>Aluminio :" + item.getMensajeJamba() + "</p>";
+                                            html += "<p>Aluminio :" + item.getMensajeEnganche() + "</p>";
+                                            html += "<p>Aluminio :" + item.getMensajeTraslape() + "</p>";
+                                            html += "<p>Aluminio :" + item.getMensajeHSuperior() + "</p>";
+                                            html += "<p>Aluminio :" + item.getMensajeHInferior() + "</p>";
+                                            html += "<p>Aluminio :" + item.getMensajeVidrio() + "</p>";
+                                            html += "______________________________________________________";
+
+                                        } else {
+                                            if (item.getTipoProducto() == 8) {
+                                                html += "<p>Tipo Producto Puerta</p><br></br>";
+                                                html += "<p>Cantidad:" + item.getCantProducto() + "</p><br></br>";
+                                                html += "<p>Nombre: " + item.getNombreProducto() + "</p>";
+                                                html += "<p>Aluminio :" + item.getMensajeCabezal() + "</p>";
+                                                html += "<p>Aluminio :" + item.getMensajeSillar() + "</p>";
+                                                html += "<p>Aluminio :" + item.getMensajeJamba() + "</p>";
+                                                html += "<p>Aluminio :" + item.getMensajeEnganche() + "</p>";
+                                                html += "<p>Aluminio :" + item.getMensajeTraslape() + "</p>";
+                                                html += "<p>Aluminio :" + item.getMensajeHSuperior() + "</p>";
+                                                html += "<p>Aluminio :" + item.getMensajeHInferior() + "</p>";
+                                                html += "<p>Aluminio 3 Alto:" + item.getMensajeAdactador() + "</p>";
+                                                html += "<p>Aluminio :" + item.getMensajeVidrio() + "</p>";
+                                                html += "______________________________________________________";
+
+                                            } else {
+                                                if (item.getTipoProducto() == 9) {
+                                                    html += "<p>Tipo Producto Vitrina</p><br></br>";
+                                                    html += "<p>Cantidad:" + item.getCantProducto() + "</p><br></br>";
+                                                    html += "<p>Nombre: " + item.getNombreProducto() + "</p>";
+                                                    html += "<p>Aluminio :" + item.getMensajeCuartoCirculoAlto() + "</p>";
+                                                    html += "<p>Aluminio :" + item.getMensajeCuartoCirculoAncho() + "</p>";
+                                                    html += "<p>Aluminio :" + item.getMensajeCuartoCirculoFondo() + "</p>";
+                                                    html += "<p>Aluminio :" + item.getMensajeAnguloMediaAlto() + "</p>";
+                                                    html += "<p>Aluminio :" + item.getMensajeAnguloMediaAncho() + "</p>";
+                                                    html += "<p>Aluminio :" + item.getMensajeAnguloMediaFondo() + "</p>";
+                                                    html += "<p>Aluminio :" + item.getMensajeNaveDivisionAncho() + "</p>";
+                                                    html += "<p>Aluminio :" + item.getMensajeVidrioAltoAncho() + "</p>";
+                                                    html += "<p>Vidrio:" + item.getMensajeVidrioAltoFondo() + "</p>";
+                                                    html += "<p>Vidrio :" + item.getMensajeVidrioAnchoFondo() + "</p>";
+                                                    html += "______________________________________________________";
+
+                                                } else {
+
+                                                    if (item.getTipoProducto() == 10) {
+                                                        html += "<p>Tipo Producto Vitrina</p><br></br>";
+                                                        html += "<p>Cantidad:" + item.getCantProducto() + "</p><br></br>";
+                                                        html += "<p>Nombre: " + item.getNombreProducto() + "</p>";
+                                                        html += "<p>Aluminio :" + item.getMensajePerfilEsquineroUna() + "</p>";
+                                                        html += "<p>Aluminio :" + item.getMensajePerfilEsquineroUnaFondo() + "</p>";
+                                                        html += "<p>Aluminio :" + item.getMensajeAnguloMediaAlto() + "</p>";
+                                                        html += "<p>Aluminio :" + item.getMensajeAnguloMediaAncho() + "</p>";
+                                                        html += "<p>Aluminio :" + item.getMensajeAnguloMediaFondo() + "</p>";
+                                                        html += "<p>Aluminio :" + item.getMensajePisavidrioAlto() + "</p>";
+                                                        html += "<p>Aluminio :" + item.getMensajePisavidrioAncho() + "</p>";
+                                                        html += "<p>Aluminio :" + item.getMensajePisavidrioFondo() + "</p>";
+                                                        html += "<p>Aluminio:" + item.getMensajeNaveAncho() + "</p>";
+                                                        html += "<p>Vidrio :" + item.getMensajeVidrioAltoAncho() + "</p>";
+                                                        html += "<p>Vidrio :" + item.getMensajeVidrioAltoFondo() + "</p>";
+                                                        html += "<p>Vidrio :" + item.getMensajeVidrioAnchoFondo() + "</p>";
+                                                        html += "<p>Vidrio :" + item.getMensajeVidrioAnchoFondo() + "</p>";
+                                                        html += "______________________________________________________";
+                                                    } else {
+                                                        if (item.getTipoProducto() == 11) {
+                                                            html += "<p>Tipo Producto Vitrina</p><br></br>";
+                                                            html += "<p>Cantidad:" + item.getCantProducto() + "</p><br></br>";
+                                                            html += "<p>Nombre: " + item.getNombreProducto() + "</p>";
+                                                            html += "<p>Aluminio :" + item.getMensajePerfilEsquineroUna() + "</p>";
+                                                            html += "<p>Aluminio :" + item.getMensajePerfilEsquineroUnaFondo() + "</p>";
+                                                            html += "<p>Aluminio :" + item.getMensajeAnguloMediaAlto() + "</p>";
+                                                            html += "<p>Aluminio :" + item.getMensajeAnguloMediaAncho() + "</p>";
+                                                            html += "<p>Aluminio :" + item.getMensajeAnguloMediaFondo() + "</p>";
+                                                            html += "<p>Aluminio :" + item.getMensajePisavidrioAlto() + "</p>";
+                                                            html += "<p>Aluminio :" + item.getMensajePisavidrioAncho() + "</p>";
+                                                            html += "<p>Aluminio :" + item.getMensajePisavidrioFondo() + "</p>";
+                                                            html += "<p>Aluminio:" + item.getMensajeNaveAncho() + "</p>";
+                                                            html += "<p>Vidrio :" + item.getMensajeVidrioAltoAncho() + "</p>";
+                                                            html += "<p>Vidrio :" + item.getMensajeVidrioAltoFondo() + "</p>";
+                                                            html += "<p>Vidrio :" + item.getMensajeVidrioAnchoFondo() + "</p>";
+                                                            html += "<p>Vidrio :" + item.getMensajeVidrioAnchoFondo() + "</p>";
+                                                            html += "______________________________________________________";
+
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
             htmlWorker.parse(new StringReader(html));
         } catch (Exception e) {
-            System.out.println("Ocurrio un error generando pdf: "+e.toString());
+            System.out.println("Ocurrio un error generando pdf: " + e.toString());
         }
 
     }
@@ -1959,6 +2186,14 @@ public class MbAbonos {
 
     public void setTipoColorVitrina(int tipoColorVitrina) {
         this.tipoColorVitrina = tipoColorVitrina;
+    }
+
+    public int getCantidadProducto() {
+        return cantidadProducto;
+    }
+
+    public void setCantidadProducto(int cantidadProducto) {
+        this.cantidadProducto = cantidadProducto;
     }
 
 }
